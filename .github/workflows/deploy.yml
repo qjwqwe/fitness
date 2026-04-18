@@ -42,7 +42,7 @@ jobs:
         run: npm run build
         env:
           PUBLIC_API_BASE_URL: ${{ secrets.PUBLIC_API_BASE_URL }}
-          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://'${{ github.repository_owner }}'.github.io' }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
           PUBLIC_BASE_PATH: ${{ vars.PUBLIC_BASE_PATH || '/' }}
           
       - name: Deploy to GitHub Pages

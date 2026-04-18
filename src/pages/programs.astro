@@ -4,15 +4,15 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="健身计划" description="创建并管理你的个性化健身计划">
   <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">健身计划</h1>
-  
-  <div id="auth-required" class="${api.isAuthenticated() ? 'hidden' : ''}">
+
+  <div id="auth-required" class="">
     <div class="fitness-card p-8 text-center">
       <p class="text-gray-600 dark:text-gray-400 mb-4">请先登录才能创建和管理你的健身计划</p>
       <button class="btn-primary" onclick="document.getElementById('login-modal').classList.remove('hidden')">登录 / 注册</button>
     </div>
   </div>
   
-  <div id="programs-container" class="${api.isAuthenticated() ? '' : 'hidden'}">
+  <div id="programs-container" class="hidden">
     <div class="mb-6 flex justify-between items-center">
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white">我的计划</h2>
       <button id="new-program-btn" class="btn-primary">创建新计划</button>
