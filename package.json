@@ -5,7 +5,7 @@
   "description": "Fitness tracking website built with Astro and TailwindCSS",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",

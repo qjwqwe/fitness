@@ -6,9 +6,8 @@ import predefinedChallenges from '../data/fitness/challenges.js';
 <Layout title="月度挑战" description="参与月度健身挑战，和大家一起坚持">
   <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">月度挑战</h1>
   
-  <p class="text-gray-600 dark:text-gray-400 mb-8">
+  <p id="auth-hint" class="text-gray-600 dark:text-gray-400 mb-8">
     挑战自我，坚持锻炼！完成月度挑战可以帮助你养成持续锻炼的好习惯。
-    {api.isAuthenticated() ? '你的进度会自动保存。' : '登录后可以追踪你的进度。'}
   </p>
 
   <!-- 当前月份 -->
@@ -26,6 +25,14 @@ import predefinedChallenges from '../data/fitness/challenges.js';
 <script is:inline>
 // 月度挑战页面
 const api = window.fitnessAPI;
+
+// 更新认证提示
+const authHint = document.getElementById('auth-hint');
+if (api.isAuthenticated()) {
+  authHint.textContent += ' 你的进度会自动保存。';
+} else {
+  authHint.textContent += ' 登录后可以追踪你的进度。';
+}
 
 // 显示当前月份
 const now = new Date();
