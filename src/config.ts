@@ -9,5 +9,5 @@ export const SITE = {
   dir: "ltr",
   lang: "zh-CN",
   // API 后端地址
-  apiBaseUrl: import.meta.env.PUBLIC_API_BASE_URL || "http://sbnone.dpdns.org/api",
+  apiBaseUrl: import.meta.env.PUBLIC_API_BASE_URL || "https://sbnone.dpdns.org/api",
 } as const;
