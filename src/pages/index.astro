@@ -4,78 +4,99 @@ import { SITE } from '../config';
 ---
 
 <Layout title="首页" description={SITE.description}>
-  <!-- Hero 区域 -->
-  <section class="py-12 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-      欢迎来到<span class="text-blue-600 dark:text-blue-400">健身为王</span>
-    </h1>
-    <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-      个人健身追踪平台，记录每一次训练，见证每一步成长
-    </p>
+  <!-- Hero 区域 - 带渐变背景 -->
+  <section class="relative py-16 md:py-24 text-center overflow-hidden">
+    <!-- 背景渐变 -->
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950"></div>
+    <!-- 装饰圆形 -->
+    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-400/20 dark:bg-blue-400/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-400/20 dark:bg-indigo-400/10 rounded-full blur-3xl"></div>
     
-    <!-- 用户菜单 (登录后显示) -->
-    <div id="user-menu" class="hidden mb-8">
-      <span class="text-gray-600 dark:text-gray-400 mr-4">
-        你好，<span id="username-display" class="font-semibold text-blue-600 dark:text-blue-400"></span>
-      </span>
-      <button id="logout-btn" class="btn-secondary">退出登录</button>
+    <div class="relative max-w-4xl mx-auto px-4">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
+        欢迎来到<span class="text-blue-600 dark:text-blue-400">健身为王</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+        个人健身追踪平台，记录每一次训练，见证每一步成长
+      </p>
+      
+      <!-- 行动按钮 -->
+      <div class="flex flex-wrap justify-center gap-4 mb-8">
+        <a href="{import.meta.env.BASE_URL}/daily" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+          开始今日训练
+        </a>
+        <a href="{import.meta.env.BASE_URL}/workouts" class="px-8 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors">
+          浏览训练库
+        </a>
+      </div>
+      
+      <!-- 用户菜单 (登录后显示) -->
+      <div id="user-menu" class="hidden mb-8">
+        <span class="text-gray-600 dark:text-gray-400 mr-4">
+          你好，<span id="username-display" class="font-semibold text-blue-600 dark:text-blue-400"></span>
+        </span>
+        <button id="logout-btn" class="btn-secondary">退出登录</button>
+      </div>
     </div>
   </section>
 
   <!-- 功能卡片 -->
-  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-    <a href="{import.meta.env.BASE_URL}/daily" class="fitness-card p-6 block hover:scale-[1.02] transition-transform">
-      <div class="text-4xl mb-4">💪</div>
-      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">每日训练</h3>
-      <p class="text-gray-600 dark:text-gray-400">每天为你推荐精选训练，坚持打卡养成习惯</p>
-    </a>
+  <section class="container mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-white">功能导航</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a href="{import.meta.env.BASE_URL}/daily" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+        <div class="text-5xl mb-4">💪</div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">每日训练</h3>
+        <p class="text-gray-600 dark:text-gray-400">每天为你推荐精选训练，坚持打卡养成习惯</p>
+      </a>
 
-    <a href="{import.meta.env.BASE_URL}/workouts" class="fitness-card p-6 block hover:scale-[1.02] transition-transform">
-      <div class="text-4xl mb-4">📚</div>
-      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">训练库</h3>
-      <p class="text-gray-600 dark:text-gray-400">完整的动作库和训练计划，找到适合你的训练</p>
-    </a>
+      <a href="{import.meta.env.BASE_URL}/workouts" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+        <div class="text-5xl mb-4">📚</div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">训练库</h3>
+        <p class="text-gray-600 dark:text-gray-400">完整的动作库和训练计划，找到适合你的训练</p>
+      </a>
 
-    <a href="{import.meta.env.BASE_URL}/challenges" class="fitness-card p-6 block hover:scale-[1.02] transition-transform">
-      <div class="text-4xl mb-4">🎯</div>
-      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">月度挑战</h3>
-      <p class="text-gray-600 dark:text-gray-400">参与月度健身挑战，和大家一起坚持</p>
-    </a>
+      <a href="{import.meta.env.BASE_URL}/challenges" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+        <div class="text-5xl mb-4">🎯</div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">月度挑战</h3>
+        <p class="text-gray-600 dark:text-gray-400">参与月度健身挑战，和大家一起坚持</p>
+      </a>
 
-    <a href="{import.meta.env.BASE_URL}/programs" class="fitness-card p-6 block hover:scale-[1.02] transition-transform">
-      <div class="text-4xl mb-4">📅</div>
-      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">健身计划</h3>
-      <p class="text-gray-600 dark:text-gray-400">创建并管理你的个性化健身计划</p>
-    </a>
+      <a href="{import.meta.env.BASE_URL}/programs" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+        <div class="text-5xl mb-4">📅</div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">健身计划</h3>
+        <p class="text-gray-600 dark:text-gray-400">创建并管理你的个性化健身计划</p>
+      </a>
 
-    <div id="login-card" class="fitness-card p-6 block hover:scale-[1.02] transition-transform cursor-pointer" onclick="document.getElementById('login-modal').classList.remove('hidden')">
-      <div class="text-4xl mb-4">🔐</div>
-      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">登录/注册</h3>
-      <p class="text-gray-600 dark:text-gray-400">登录后同步你的训练数据到云端</p>
+      <div id="login-card" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all cursor-pointer border border-gray-100 dark:border-gray-800" onclick="document.getElementById('login-modal').classList.remove('hidden')">
+        <div class="text-5xl mb-4">🔐</div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">登录/注册</h3>
+        <p class="text-gray-600 dark:text-gray-400">登录后同步你的训练数据到云端</p>
+      </div>
+
+      <a href="{import.meta.env.BASE_URL}/about" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+        <div class="text-5xl mb-4">ℹ️</div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">关于</h3>
+        <p class="text-gray-600 dark:text-gray-400">了解更多关于这个项目的信息</p>
+      </a>
     </div>
-
-    <a href="{import.meta.env.BASE_URL}/about" class="fitness-card p-6 block hover:scale-[1.02] transition-transform">
-      <div class="text-4xl mb-4">ℹ️</div>
-      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">关于</h3>
-      <p class="text-gray-600 dark:text-gray-400">了解更多关于这个项目的信息</p>
-    </a>
   </section>
 
   <!-- 统计区域 (登录后显示) -->
-  <section id="stats-section" class="hidden mt-12">
-    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">我的训练统计</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="fitness-card p-6 text-center">
-        <div id="total-workouts" class="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-        <p class="text-gray-600 dark:text-gray-400">总训练次数</p>
+  <section id="stats-section" class="hidden container mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-white">我的训练统计</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="fitness-card p-8 text-center border border-gray-100 dark:border-gray-800">
+        <div id="total-workouts" class="text-4xl font-bold text-blue-600 dark:text-blue-400">0</div>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">总训练次数</p>
       </div>
-      <div class="fitness-card p-6 text-center">
-        <div id="total-days" class="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-        <p class="text-gray-600 dark:text-gray-400">训练天数</p>
+      <div class="fitness-card p-8 text-center border border-gray-100 dark:border-gray-800">
+        <div id="total-days" class="text-4xl font-bold text-blue-600 dark:text-blue-400">0</div>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">训练天数</p>
       </div>
-      <div class="fitness-card p-6 text-center">
-        <div id="streak" class="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-        <p class="text-gray-600 dark:text-gray-400">当前连续天数</p>
+      <div class="fitness-card p-8 text-center border border-gray-100 dark:border-gray-800">
+        <div id="streak" class="text-4xl font-bold text-blue-600 dark:text-blue-400">0</div>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">当前连续天数</p>
       </div>
     </div>
   </section>
