@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="健身计划" description="创建并管理你的个性化健身计划">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">健身计划</h1>
+  
+  <div id="auth-required" class="${api.isAuthenticated() ? 'hidden' : ''}">
+    <div class="fitness-card p-8 text-center">
+      <p class="text-gray-600 dark:text-gray-400 mb-4">请先登录才能创建和管理你的健身计划</p>
+      <button class="btn-primary" onclick="document.getElementById('login-modal').classList.remove('hidden')">登录 / 注册</button>
+    </div>
+  </div>
+  
+  <div id="programs-container" class="${api.isAuthenticated() ? '' : 'hidden'}">
+    <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">我的计划</h2>
+      <button id="new-program-btn" class="btn-primary">创建新计划</button>
+    </div>
+    
+    <div id="programs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 动态填充 -->
+      <p id="no-programs" class="text-gray-500 dark:text-gray-400 col-span-full text-center py-12">还没有创建任何计划，点击上面按钮创建第一个吧！</p>
+    </div>
+  </div>
+  
+  <!-- 创建/编辑计划模态框 -->
+  <div id="program-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 id="program-modal-title" class="text-xl font-bold text-gray-900 dark:text-white">创建新计划</h3>
+          <button onclick="document.getElementById('program-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <form id="program-form" class="space-y-4">
+          <input type="hidden" id="program-id">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">计划名称</label>
+            <input type="text" id="program-name" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white" placeholder="例如：30天减脂计划">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">描述</label>
+            <textarea id="program-description" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white" placeholder="描述一下这个计划的目标..."></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">目标天数</label>
+            <input type="number" id="program-target-days" min="1" max="365" value="30" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+          </div>
+          <button type="submit" class="btn-primary w-full">保存计划</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 复用首页的登录模态框 -->
+</Layout>
+
+<script is:inline>
+// 健身计划页面
+const api = window.fitnessAPI;
+let programs = [];
+
+// 检查认证状态
+if (!api.isAuthenticated()) {
+  document.getElementById('auth-required').classList.remove('hidden');
+  document.getElementById('programs-container').classList.add('hidden');
+} else {
+  loadPrograms();
+}
+
+// 加载计划
+async function loadPrograms() {
+  try {
+    const { workouts } = await api.getWorkouts();
+    // 过滤出计划类型的训练
+    programs = workouts.filter(w => w.type === 'program');
+    renderPrograms();
+  } catch (err) {
+    console.error('加载计划失败', err);
+  }
+}
+
+// 渲染计划列表
+function renderPrograms() {
+  const container = document.getElementById('programs-grid');
+  const noPrograms = document.getElementById('no-programs');
+  
+  if (programs.length === 0) {
+    noPrograms.classList.remove('hidden');
+    container.innerHTML = '';
+    return;
+  }
+  
+  noPrograms.classList.add('hidden');
+  
+  container.innerHTML = programs.map(program => {
+    const startDate = new Date(program.startDate || program.date);
+    const progress = program.completedDays || 0;
+    const target = program.targetDays || 30;
+    const percentage = Math.round((progress / target) * 100);
+    
+    return `
+      <div class="fitness-card p-6">
+        <div class="flex justify-between items-start mb-3">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">${program.name}</h3>
+          <span class="px-3 py-1 ${percentage >= 100 ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'} rounded-full text-sm">
+            ${percentage >= 100 ? '已完成' : '进行中'}
+          </span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">${program.description || '无描述'}</p>
+        <div class="mb-4">
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-gray-600 dark:text-gray-400">进度</span>
+            <span class="font-semibold text-gray-900 dark:text-white">${progress} / ${target}</span>
+          </div>
+          <div class="progress-bar h-4">
+            <div class="progress-bar-fill h-4" style="width: ${percentage}%"></div>
+          </div>
+        </div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+          创建于 ${startDate.toLocaleDateString('zh-CN')}
+        </div>
+        <div class="flex gap-2">
+          <button class="btn-secondary flex-1 edit-program-btn" data-id="${program.id}">编辑</button>
+          <button class="btn-secondary flex-1 text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-900/20 delete-program-btn" data-id="${program.id}">删除</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // 绑定事件
+  document.querySelectorAll('.edit-program-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      editProgram(id);
+    });
+  });
+  
+  document.querySelectorAll('.delete-program-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = parseInt(btn.dataset.id);
+      if (confirm('确定要删除这个计划吗？')) {
+        try {
+          await api.deleteWorkout(id);
+          await loadPrograms();
+        } catch (err) {
+          alert('删除失败: ' + err.message);
+        }
+      }
+    });
+  });
+}
+
+// 新建计划按钮
+document.getElementById('new-program-btn').addEventListener('click', () => {
+  document.getElementById('program-modal-title').textContent = '创建新计划';
+  document.getElementById('program-form').reset();
+  document.getElementById('program-id').value = '';
+  document.getElementById('program-modal').classList.remove('hidden');
+});
+
+// 编辑计划
+function editProgram(id) {
+  const program = programs.find(p => p.id === id);
+  if (!program) return;
+  
+  document.getElementById('program-modal-title').textContent = '编辑计划';
+  document.getElementById('program-id').value = program.id;
+  document.getElementById('program-name').value = program.name;
+  document.getElementById('program-description').value = program.description || '';
+  document.getElementById('program-target-days').value = program.targetDays || 30;
+  document.getElementById('program-modal').classList.remove('hidden');
+}
+
+// 表单提交
+document.getElementById('program-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const id = document.getElementById('program-id').value;
+  const name = document.getElementById('program-name').value;
+  const description = document.getElementById('program-description').value;
+  const targetDays = parseInt(document.getElementById('program-target-days').value);
+  
+  const data = {
+    name,
+    description,
+    targetDays,
+    type: 'program',
+    completedDays: 0,
+    startDate: new Date().toISOString(),
+  };
+  
+  try {
+    if (id) {
+      await api.updateWorkout(parseInt(id), data);
+    } else {
+      await api.createWorkout(data);
+    }
+    
+    document.getElementById('program-modal').classList.add('hidden');
+    await loadPrograms();
+  } catch (err) {
+    alert('保存失败: ' + err.message);
+  }
+});
+</script>

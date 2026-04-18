@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import predefinedChallenges from '../data/fitness/challenges.js';
+---
+
+<Layout title="月度挑战" description="参与月度健身挑战，和大家一起坚持">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">月度挑战</h1>
+  
+  <p class="text-gray-600 dark:text-gray-400 mb-8">
+    挑战自我，坚持锻炼！完成月度挑战可以帮助你养成持续锻炼的好习惯。
+    {api.isAuthenticated() ? '你的进度会自动保存。' : '登录后可以追踪你的进度。'}
+  </p>
+
+  <!-- 当前月份 -->
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+      <span id="current-month-year"></span>
+    </h2>
+    
+    <div id="challenges-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 动态填充 -->
+    </div>
+  </div>
+</Layout>
+
+<script is:inline>
+// 月度挑战页面
+const api = window.fitnessAPI;
+
+// 显示当前月份
+const now = new Date();
+document.getElementById('current-month-year').textContent = 
+  now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long' });
+
+// 从 localStorage 获取挑战进度
+function getChallengeProgress(challengeId) {
+  const saved = localStorage.getItem(`challenge_${challengeId}_progress`);
+  return saved ? JSON.parse(saved) : { completedDays: 0, targetDays: 30 };
+}
+
+// 保存进度
+function saveChallengeProgress(challengeId, progress) {
+  localStorage.setItem(`challenge_${challengeId}_progress`, JSON.stringify(progress));
+}
+
+// 渲染挑战列表
+function renderChallenges() {
+  const container = document.getElementById('challenges-grid');
+  
+  container.innerHTML = predefinedChallenges.map(challenge => {
+    const progress = getChallengeProgress(challenge.id);
+    const percentage = Math.round((progress.completedDays / challenge.targetDays) * 100);
+    
+    return `
+      <div class="fitness-card p-6">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">${challenge.name}</h3>
+          <span class="px-3 py-1 ${percentage >= 100 ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'} rounded-full text-sm">
+            ${percentage >= 100 ? '已完成' : '进行中'}
+          </span>
+        </div>
+        
+        <p class="text-gray-600 dark:text-gray-400 mb-4">${challenge.description}</p>
+        
+        <div class="mb-4">
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-gray-600 dark:text-gray-400">进度</span>
+            <span class="font-semibold text-gray-900 dark:text-white">${progress.completedDays} / ${challenge.targetDays}</span>
+          </div>
+          <div class="progress-bar h-4">
+            <div class="progress-bar-fill h-4" style="width: ${percentage}%"></div>
+          </div>
+        </div>
+        
+        <div class="flex gap-2">
+          <button class="btn-primary flex-1 toggle-day-btn" data-challenge-id="${challenge.id}" data-completed="${progress.completedDays}">
+            ${percentage >= 100 ? '重置挑战' : '标记今日完成'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // 绑定事件
+  document.querySelectorAll('.toggle-day-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const challengeId = parseInt(btn.dataset.challengeId);
+      let completedDays = parseInt(btn.dataset.completed);
+      const challenge = predefinedChallenges.find(c => c.id === challengeId);
+      
+      if (completedDays >= challenge.targetDays) {
+        // 重置
+        completedDays = 0;
+      } else {
+        completedDays += 1;
+      }
+      
+      saveChallengeProgress(challengeId, {
+        completedDays,
+        targetDays: challenge.targetDays
+      });
+      
+      renderChallenges();
+    });
+  });
+}
+
+// 初始渲染
+renderChallenges();
+
+// 如果用户登录，可以同步到后端
+if (api.isAuthenticated()) {
+  // TODO: 从后端加载进度，同步到本地
+  // TODO: 保存进度到后端
+}
+</script>

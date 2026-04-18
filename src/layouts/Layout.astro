@@ -1,0 +1,49 @@
+---
+import { SITE } from '../config';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = SITE.description, ogImage = SITE.ogImage } = Astro.props;
+const siteTitle = title ? `${title} | ${SITE.title}` : SITE.title;
+---
+
+<!DOCTYPE html>
+<html lang="<?php echo SITE.lang; ?>" dir="<?php echo SITE.dir; ?>" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{siteTitle}</title>
+  <meta name="description" content={description}>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content={siteTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:image" content={new URL(ogImage, SITE.website).href}>
+  
+  <!-- Theme color -->
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="color-scheme" content="light dark">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <include src="../components/Header.astro" />
+  
+  <main class="container mx-auto px-4 py-6 min-h-[calc(100vh-160px)]">
+    <slot />
+  </main>
+  
+  <include src="../components/Footer.astro" />
+  
+  <script type="module" src="../scripts/theme-toggle.js"></script>
+  <script type="module" src="../scripts/fitness-api.js"></script>
+</body>
+</html>
+EOF

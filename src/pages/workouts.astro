@@ -1,0 +1,179 @@
+---
+import Layout from '../layouts/Layout.astro';
+import presetWorkouts from '../data/fitness/preset-workouts.js';
+---
+
+<Layout title="训练库" description="完整的动作库和训练计划，找到适合你的训练">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">训练库</h1>
+  
+  <!-- 筛选器 -->
+  <div class="mb-6 flex flex-wrap gap-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">分类筛选</label>
+      <select id="category-filter" class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+        <option value="">全部</option>
+        <option value="初学者">初学者</option>
+        <option value="力量">力量</option>
+        <option value=" cardio">有氧</option>
+        <option value="核心">核心</option>
+        <option value="拉伸">拉伸</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">难度筛选</label>
+      <select id="difficulty-filter" class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+        <option value="">全部</option>
+        <option value="简单">简单</option>
+        <option value="中等">中等</option>
+        <option value="困难">困难</option>
+      </select>
+    </div>
+    <div class="flex items-end">
+      <button id="clear-filters" class="btn-secondary">清除筛选</button>
+    </div>
+  </div>
+
+  <!-- 训练列表 -->
+  <div id="workouts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- 由 JavaScript 动态填充 -->
+  </div>
+</Layout>
+
+<script is:inline>
+// 训练库页面
+const allWorkouts = [];
+
+// 把所有分类展平成一个列表
+Object.entries(presetWorkouts).forEach(([category, workouts]) => {
+  workouts.forEach(w => {
+    allWorkouts.push({...w, category});
+  });
+});
+
+// 渲染训练列表
+function renderWorkouts() {
+  const categoryFilter = document.getElementById('category-filter').value;
+  const difficultyFilter = document.getElementById('difficulty-filter').value;
+  
+  let filtered = allWorkouts;
+  
+  if (categoryFilter) {
+    filtered = filtered.filter(w => w.category === categoryFilter);
+  }
+  if (difficultyFilter) {
+    filtered = filtered.filter(w => w.difficulty === difficultyFilter);
+  }
+  
+  const container = document.getElementById('workouts-grid');
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-12">没有找到符合条件的训练</p>';
+    return;
+  }
+  
+  container.innerHTML = filtered.map(workout => `
+    <div class="fitness-card p-6">
+      <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">${workout.name}</h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">${workout.description}</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs">${workout.category}</span>
+        <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-xs">${workout.duration} 分钟</span>
+        <span class="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-xs">${workout.difficulty}</span>
+      </div>
+      <button class="btn-primary w-full view-workout-btn" data-workout-name="${workout.name}">查看详情</button>
+    </div>
+  `).join('');
+  
+  // 绑定点击事件
+  document.querySelectorAll('.view-workout-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.workoutName;
+      const workout = filtered.find(w => w.name === name);
+      showWorkoutModal(workout);
+    });
+  });
+}
+
+// 显示详情模态框
+function showWorkoutModal(workout) {
+  let modal = document.getElementById('workout-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'workout-modal';
+    modal.className = 'fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4';
+    document.body.appendChild(modal);
+  }
+  
+  let exercisesHtml = '<ul class="space-y-2">';
+  workout.exercises.forEach(ex => {
+    exercisesHtml += `<li class="flex items-start"><span class="text-blue-600 dark:text-blue-400 font-bold mr-2">•</span><span class="text-gray-800 dark:text-gray-200">${ex.name} - ${ex.sets} × ${ex.reps}</span></li>`;
+  });
+  exercisesHtml += '</ul>';
+  
+  modal.innerHTML = `
+    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white">${workout.name}</h3>
+          <button onclick="document.getElementById('workout-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">${workout.description}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm">${workout.category}</span>
+          <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">${workout.duration} 分钟</span>
+          <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">难度: ${workout.difficulty}</span>
+        </div>
+        <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">训练动作</h4>
+        ${exercisesHtml}
+        ${workout.notes ? `
+          <div class="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+            <p class="text-yellow-800 dark:text-yellow-200 text-sm"><strong>提示:</strong> ${workout.notes}</p>
+          </div>
+        ` : ''}
+        <div class="mt-6">
+          ${window.fitnessAPI.isAuthenticated() ? `
+            <button id="save-to-my" class="btn-primary w-full">添加到我的训练记录</button>
+          ` : `
+            <p class="text-sm text-gray-500 dark:text-gray-400 text-center">登录后可以保存训练记录</p>
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  modal.classList.remove('hidden');
+  
+  // 绑定保存事件
+  document.getElementById('save-to-my')?.addEventListener('click', async () => {
+    try {
+      await window.fitnessAPI.createWorkout({
+        name: workout.name,
+        type: 'library',
+        exercises: workout.exercises,
+        duration: workout.duration,
+        date: new Date().toISOString(),
+      });
+      alert('已添加到你的训练记录！');
+      modal.classList.add('hidden');
+    } catch (err) {
+      alert('保存失败: ' + err.message);
+    }
+  });
+}
+
+// 绑定筛选事件
+document.getElementById('category-filter').addEventListener('change', renderWorkouts);
+document.getElementById('difficulty-filter').addEventListener('change', renderWorkouts);
+document.getElementById('clear-filters').addEventListener('click', () => {
+  document.getElementById('category-filter').value = '';
+  document.getElementById('difficulty-filter').value = '';
+  renderWorkouts();
+});
+
+// 初始渲染
+renderWorkouts();
+</script>
