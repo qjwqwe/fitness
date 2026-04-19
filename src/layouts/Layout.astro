@@ -12,6 +12,7 @@ interface Props {
 
 const { title, description = SITE.description, ogImage = SITE.ogImage } = Astro.props;
 const siteTitle = title ? `${title} | ${SITE.title}` : SITE.title;
+const base = import.meta.env.BASE_URL;
 ---
 
 <!DOCTYPE html>
@@ -44,8 +45,8 @@ const siteTitle = title ? `${title} | ${SITE.title}` : SITE.title;
   
   <Footer />
   
-  <script type="module" src="../scripts/theme-toggle.js"></script>
-  <script type="module" src="../scripts/fitness-api.js"></script>
+  <script type="module" src={base + 'scripts/theme-toggle.js'}></script>
+  <script type="module" src={base + 'scripts/fitness-api.js'}></script>
 </body>
 </html>
 EOF
