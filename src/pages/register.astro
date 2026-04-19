@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="注册" description="注册健身为王账号，开始记录你的健身之旅">
+  <div class="max-w-md mx-auto py-8">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-light mb-3 text-gray-900 dark:text-white">创建账号</h1>
+      <p class="text-gray-500 dark:text-gray-400">开始你的健身之旅，记录每一步成长</p>
+    </div>
+    
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-8">
+      <!-- 注册表单 -->
+      <form id="register-form" class="space-y-6">
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">用户名</label>
+          <input type="text" id="register-username" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">邮箱</label>
+          <input type="email" id="register-email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">密码</label>
+          <input type="password" id="register-password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          <p class="text-xs text-gray-400 dark:text-gray-500">至少8位，包含字母和数字</p>
+        </div>
+        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-sm hover:shadow">创建账号</button>
+        <div id="register-error" class="text-red-500 text-sm hidden"></div>
+      </form>
+
+      <div class="relative my-8">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-4 bg-white dark:bg-gray-900 text-gray-400 dark:text-gray-500">或者快速注册</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <a href="{base}/auth/google" class="flex items-center justify-center px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+          <span class="sr-only">Google</span>
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.52H2.22v2.83C4.02 20.42 7.55 23 12 23z" fill="#34A853"></path>
+            <path d="M5.84 14.09c-.25-.76-.38-1.56-.38-2.38s.13-1.62.38-2.38V6.5H2.22C1.48 8.03 1 9.94 1 12c0 2.06.48 3.97 1.22 5.5l3.62-2.41z" fill="#FBBC05"></path>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.55 1 4.02 3.58 2.22 6.44l3.62 2.81c.87-2.59 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+          </svg>
+        </a>
+        <a href="{base}/auth/microsoft" class="flex items-center justify-center px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+          <span class="sr-only">Microsoft</span>
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M0 0h11.377v11.372H0V0zm12.623 0H24v11.372H12.623V0zM0 12.628h11.377V24H0V12.628zm12.623 0H24V24H12.623V12.628z" fill="#F25022"></path>
+          </svg>
+        </a>
+        <a href="{base}/auth/apple" class="flex items-center justify-center px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+          <span class="sr-only">Apple</span>
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8.074 2.009c.916-.46 1.948-.736 3.008-.762 1.066.028 2.02.31 2.855.79.745.42 1.365.987 1.854 1.683.448.63.768 1.34.943 2.12.16.72.238 1.452.238 2.194 0 .76-.088 1.52-.263 2.27-.16.71-.425 1.37-.786 1.97-.36.59-.802 1.11-1.32 1.55-.464.39-.98.73-1.542 1.02-.52.26-1.08.39-1.67.39-.58 0-1.14-.13-1.68-.39-.56-.29-1.07-.63-1.54-1.02-.52-.44-.96-.96-1.32-1.55-.36-.6-.62-1.26-.79-1.97-.17-.75-.26-1.51-.26-2.27 0-.742.08-1.474.24-2.194.17-.78.49-1.49.94-2.12.49-.696 1.11-1.263 1.86-1.683zm5.49 0c-.07-.01-.14-.01-.21-.01.21.08.41.18.6.3.19.12.36.26.52.41-.24-.32-.54-.58-.91-.7zm-1.68-1.99c-.29 0-.57.05-.85.14-.28.09-.54.21-.78.36-.23.15-.44.32-.62.51-.18.19-.34.4-.48.63-.14.23-.25.48-.33.73-.08.25-.13.51-.15.77.02.26.07.51.15.76.08.25.19.49.33.73.14.23.3.44.48.62.18.19.39.36.62.51.24.15.5.27.78.36.28.09.56.14.85.14.29 0 .57-.05.85-.14.28-.09.54-.21.78-.36.23-.15.44-.32.62-.51.18-.18.34-.39.48-.62.14-.24.25-.48.33-.73.08-.25.13-.5.15-.76-.02-.26-.07-.52-.15-.77-.08-.25-.19-.48-.33-.73-.14-.24-.3-.44-.48-.63-.18-.19-.39-.36-.62-.51-.24-.15-.5-.27-.78-.36-.28-.09-.56-.14-.85-.14zm-8.07 18c.52 0 1.02-.12 1.5-.35.48-.23.92-.54 1.32-.92.4-.38.74-.82 1.02-1.31.28-.49.49-1.02.63-1.58.14-.56.21-1.12.21-1.68 0-.52-.07-1.03-.21-1.54-.14-.52-.35-1.01-.63-1.46-.28-.45-.62-.84-1.02-1.18-.4-.34-.84-.62-1.32-.83-.48-.21-.98-.32-1.5-.32-.51 0-1.01.11-1.49.32-.48.21-.92.49-1.32.83-.4.34-.74.73-1.02 1.18-.28.45-.49.94-.63 1.46-.14.51-.21 1.02-.21 1.54 0 .56.07 1.12.21 1.68.14.56.35 1.09.63 1.58.28.49.62.93 1.02 1.31.4.38.84.69 1.32.92.48.23.98.35 1.49.35z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <p class="text-gray-500 dark:text-gray-400">
+        已有账号？<a href="{base}/login" class="text-blue-600 dark:text-blue-400 font-medium hover:underline">登录</a>
+      </p>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline>
+// 注册页面 - 苹果风格简约设计
+const api = window.fitnessAPI;
+const base = import.meta.env.BASE_URL;
+
+// 如果已经登录，跳转到首页
+if (api.isAuthenticated()) {
+  window.location.href = base;
+}
+
+// 注册提交
+document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = document.getElementById('register-username').value;
+  const email = document.getElementById('register-email').value;
+  const password = document.getElementById('register-password').value;
+  const errorEl = document.getElementById('register-error');
+  
+  // 客户端验证
+  if (password.length < 8) {
+    errorEl.textContent = '密码至少需要8个字符';
+    errorEl.classList.remove('hidden');
+    return;
+  }
+  if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(password)) {
+    errorEl.textContent = '密码需要包含至少一个字母和一个数字';
+    errorEl.classList.remove('hidden');
+    return;
+  }
+  
+  try {
+    await api.register(username, email, password);
+    window.location.href = base;
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.classList.remove('hidden');
+  }
+});
+</script>
