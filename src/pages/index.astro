@@ -23,10 +23,10 @@ const base = import.meta.env.BASE_URL;
       
       <!-- 行动按钮 -->
       <div class="flex flex-wrap justify-center gap-4 mb-8">
-        <a href="{base}/daily" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+        <a href={base + 'daily'} class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
           开始今日训练
         </a>
-        <a href="{base}/workouts" class="px-8 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors">
+        <a href={base + 'workouts'} class="px-8 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors">
           浏览训练库
         </a>
       </div>
@@ -45,37 +45,37 @@ const base = import.meta.env.BASE_URL;
   <section class="container mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-white">功能导航</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <a href="{base}/daily" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+      <a href={base + 'daily'} class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
         <div class="text-5xl mb-4">💪</div>
         <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">每日训练</h3>
         <p class="text-gray-600 dark:text-gray-400">每天为你推荐精选训练，坚持打卡养成习惯</p>
       </a>
 
-      <a href="{base}/workouts" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+      <a href={base + 'workouts'} class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
         <div class="text-5xl mb-4">📚</div>
         <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">训练库</h3>
         <p class="text-gray-600 dark:text-gray-400">完整的动作库和训练计划，找到适合你的训练</p>
       </a>
 
-      <a href="{base}/challenges" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+      <a href={base + 'challenges'} class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
         <div class="text-5xl mb-4">🎯</div>
         <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">月度挑战</h3>
         <p class="text-gray-600 dark:text-gray-400">参与月度健身挑战，和大家一起坚持</p>
       </a>
 
-      <a href="{base}/programs" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+      <a href={base + 'programs'} class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
         <div class="text-5xl mb-4">📅</div>
         <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">健身计划</h3>
         <p class="text-gray-600 dark:text-gray-400">创建并管理你的个性化健身计划</p>
       </a>
 
-      <a href="{base}/login" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+      <a href={base + 'login'} class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
         <div class="text-5xl mb-4">🔐</div>
         <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">登录/注册</h3>
         <p class="text-gray-600 dark:text-gray-400">登录后同步你的训练数据到云端</p>
       </a>
 
-      <a href="{base}/about" class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
+      <a href={base + 'about'} class="fitness-card p-8 block hover:scale-[1.02] hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800">
         <div class="text-5xl mb-4">ℹ️</div>
         <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">关于</h3>
         <p class="text-gray-600 dark:text-gray-400">了解更多关于这个项目的信息</p>
@@ -146,7 +146,7 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <div class="grid grid-cols-3 gap-3">
-            <a href="{base}/auth/google" class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+            <a href={base + 'auth/google'} class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
               <span class="sr-only">Google</span>
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
@@ -197,7 +197,7 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <div class="grid grid-cols-3 gap-3">
-            <a href="{base}/auth/google" class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+            <a href={base + 'auth/google'} class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
               <span class="sr-only">Google</span>
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
