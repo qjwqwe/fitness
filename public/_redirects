@@ -1,2 +1,3 @@
 # 把所有不带后缀的请求重定向到对应目录的 index.html
+# Cloudflare Pages 会自动添加 trailing slash，这个规则处理直接访问
 /*    /index.html   200

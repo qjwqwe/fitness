@@ -3,6 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import presetWorkouts from '../data/fitness/preset-workouts.js';
 ---
 
+<script is:inline>
+// 将预置数据暴露给客户端
+window.PRESET_WORKOUTS = JSON.stringify(presetWorkouts);
+</script>
+
 <Layout title="每日训练" description="每日为你推荐精选训练，坚持打卡养成习惯">
   <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">每日训练</h1>
   
@@ -32,8 +37,11 @@ import presetWorkouts from '../data/fitness/preset-workouts.js';
 
 <script is:inline>
 // 每日训练页面
-const api = window.fitnessAPI;
-let currentWorkout = null;
+document.addEventListener('DOMContentLoaded', () => {
+  const api = window.fitnessAPI;
+  let currentWorkout = null;
+  // 从服务端获取预置数据
+  const presetWorkouts = JSON.parse(window.PRESET_WORKOUTS);
 
 // 显示今天日期
 const today = new Date();
@@ -142,4 +150,5 @@ async function checkTodayCompleted() {
     console.error('检查完成状态失败', err);
   }
 }
+});
 </script>

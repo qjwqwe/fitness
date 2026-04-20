@@ -3,6 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import presetWorkouts from '../data/fitness/preset-workouts.js';
 ---
 
+<script is:inline>
+// 将预置数据暴露给客户端
+window.PRESET_WORKOUTS = JSON.stringify(presetWorkouts);
+</script>
+
 <Layout title="训练库" description="完整的动作库和训练计划，找到适合你的训练">
   <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">训练库</h1>
   
@@ -41,10 +46,12 @@ import presetWorkouts from '../data/fitness/preset-workouts.js';
 
 <script is:inline>
 // 训练库页面
-const allWorkouts = [];
+document.addEventListener('DOMContentLoaded', () => {
+  const presetWorkouts = JSON.parse(window.PRESET_WORKOUTS);
+  const allWorkouts = [];
 
-// 把所有分类展平成一个列表
-Object.entries(presetWorkouts).forEach(([category, workouts]) => {
+  // 把所有分类展平成一个列表
+  Object.entries(presetWorkouts).forEach(([category, workouts]) => {
   workouts.forEach(w => {
     allWorkouts.push({...w, category});
   });
@@ -176,4 +183,5 @@ document.getElementById('clear-filters').addEventListener('click', () => {
 
 // 初始渲染
 renderWorkouts();
+});
 </script>

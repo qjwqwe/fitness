@@ -3,6 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import predefinedChallenges from '../data/fitness/challenges.js';
 ---
 
+<script is:inline>
+// 将预置数据暴露给客户端
+window.PREDEFINED_CHALLENGES = JSON.stringify(predefinedChallenges);
+</script>
+
 <Layout title="月度挑战" description="参与月度健身挑战，和大家一起坚持">
   <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">月度挑战</h1>
   
@@ -24,7 +29,10 @@ import predefinedChallenges from '../data/fitness/challenges.js';
 
 <script is:inline>
 // 月度挑战页面
-const api = window.fitnessAPI;
+document.addEventListener('DOMContentLoaded', () => {
+  const api = window.fitnessAPI;
+  // 从服务端获取预置数据
+  const predefinedChallenges = JSON.parse(window.PREDEFINED_CHALLENGES);
 
 // 更新认证提示
 const authHint = document.getElementById('auth-hint');
@@ -115,9 +123,10 @@ function renderChallenges() {
 // 初始渲染
 renderChallenges();
 
-// 如果用户登录，可以同步到后端
-if (api.isAuthenticated()) {
-  // TODO: 从后端加载进度，同步到本地
-  // TODO: 保存进度到后端
-}
+  // 如果用户登录，可以同步到后端
+  if (api.isAuthenticated()) {
+    // TODO: 从后端加载进度，同步到本地
+    // TODO: 保存进度到后端
+  }
+});
 </script>
