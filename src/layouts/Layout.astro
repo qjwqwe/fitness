@@ -30,7 +30,7 @@ const base = import.meta.env.BASE_URL;
   <meta property="og:image" content={new URL(ogImage, SITE.website).href}>
   
   <!-- Theme color -->
-  <meta name="theme-color" content="#3b82f6">
+  <meta name="theme-color" content="#0071e3">
   <meta name="color-scheme" content="light dark">
   
   <!-- Favicon -->
@@ -39,7 +39,7 @@ const base = import.meta.env.BASE_URL;
 <body>
   <Header />
   
-  <main class="container mx-auto px-4 py-6 min-h-[calc(100vh-160px)]">
+  <main class="apple-container py-8 min-h-[calc(100vh-160px)]">
     <slot />
   </main>
   
@@ -49,4 +49,3 @@ const base = import.meta.env.BASE_URL;
   <script type="module" src={base + 'scripts/fitness-api.js'}></script>
 </body>
 </html>
-EOF

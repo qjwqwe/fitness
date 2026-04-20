@@ -9,20 +9,22 @@ window.PREDEFINED_CHALLENGES = JSON.stringify(predefinedChallenges);
 </script>
 
 <Layout title="月度挑战" description="参与月度健身挑战，和大家一起坚持">
-  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">月度挑战</h1>
-  
-  <p id="auth-hint" class="text-gray-600 dark:text-gray-400 mb-8">
-    挑战自我，坚持锻炼！完成月度挑战可以帮助你养成持续锻炼的好习惯。
-  </p>
+  <div class="apple-container py-8">
+    <h1 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">月度挑战</h1>
 
-  <!-- 当前月份 -->
-  <div class="mb-8">
-    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-      <span id="current-month-year"></span>
-    </h2>
-    
-    <div id="challenges-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- 动态填充 -->
+    <p id="auth-hint" class="text-gray-600 dark:text-gray-400 mb-8">
+      挑战自我，坚持锻炼！完成月度挑战可以帮助你养成持续锻炼的好习惯。
+    </p>
+
+    <!-- 当前月份 -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+        <span id="current-month-year"></span>
+      </h2>
+
+      <div id="challenges-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 动态填充 -->
+      </div>
     </div>
   </div>
 </Layout>

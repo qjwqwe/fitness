@@ -9,38 +9,40 @@ window.PRESET_WORKOUTS = JSON.stringify(presetWorkouts);
 </script>
 
 <Layout title="训练库" description="完整的动作库和训练计划，找到适合你的训练">
-  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">训练库</h1>
-  
-  <!-- 筛选器 -->
-  <div class="mb-6 flex flex-wrap gap-4">
-    <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">分类筛选</label>
-      <select id="category-filter" class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
-        <option value="">全部</option>
-        <option value="初学者">初学者</option>
-        <option value="力量">力量</option>
-        <option value=" cardio">有氧</option>
-        <option value="核心">核心</option>
-        <option value="拉伸">拉伸</option>
-      </select>
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">难度筛选</label>
-      <select id="difficulty-filter" class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
-        <option value="">全部</option>
-        <option value="简单">简单</option>
-        <option value="中等">中等</option>
-        <option value="困难">困难</option>
-      </select>
-    </div>
-    <div class="flex items-end">
-      <button id="clear-filters" class="btn-secondary">清除筛选</button>
-    </div>
-  </div>
+  <div class="apple-container py-8">
+    <h1 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">训练库</h1>
 
-  <!-- 训练列表 -->
-  <div id="workouts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- 由 JavaScript 动态填充 -->
+    <!-- 筛选器 -->
+    <div class="mb-8 flex flex-wrap gap-4 items-end">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">分类筛选</label>
+        <select id="category-filter" class="apple-input px-3 py-2">
+          <option value="">全部</option>
+          <option value="初学者">初学者</option>
+          <option value="力量">力量</option>
+          <option value=" cardio">有氧</option>
+          <option value="核心">核心</option>
+          <option value="拉伸">拉伸</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">难度筛选</label>
+        <select id="difficulty-filter" class="apple-input px-3 py-2">
+          <option value="">全部</option>
+          <option value="简单">简单</option>
+          <option value="中等">中等</option>
+          <option value="困难">困难</option>
+        </select>
+      </div>
+      <div>
+        <button id="clear-filters" class="apple-btn-secondary">清除筛选</button>
+      </div>
+    </div>
+
+    <!-- 训练列表 -->
+    <div id="workouts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- 由 JavaScript 动态填充 -->
+    </div>
   </div>
 </Layout>
 

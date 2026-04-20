@@ -1,50 +1,244 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+/* 苹果风格设计系统 */
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f3f4f6;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --border-color: #e5e7eb;
-  --accent: #3b82f6;
+  /* 苹果风格配色 - 浅色模式 */
+  --bg-primary: #f5f5f7;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e8e8ed;
+  --text-primary: #1d1d1f;
+  --text-secondary: #86868b;
+  --border-color: #d2d2d7;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.1);
+  --nav-bg: rgba(245, 245, 247, 0.7);
 }
 
 :root.dark {
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --text-primary: #f9fafb;
-  --text-secondary: #9ca3af;
-  --border-color: #374151;
-  --accent: #60a5fa;
+  /* 苹果风格配色 - 深色模式 */
+  --bg-primary: #000000;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2d2d2d;
+  --text-primary: #f5f5f7;
+  --text-secondary: #86868b;
+  --border-color: #424245;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --card-bg: rgba(26, 26, 26, 0.8);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --nav-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* 苹果系统字体栈 */
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.5s, color 0.5s;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
 }
 
-/* 健身卡片通用样式 */
+/* 苹果风格导航栏 - 磨砂玻璃效果 */
+.apple-nav {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* 苹果风格卡片 */
 .fitness-card {
-  @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-200;
+  @apply rounded-2xl border;
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 按钮基础样式 */
+.fitness-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* 苹果风格按钮 */
 .btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply text-white font-medium py-2.5 px-6 rounded-full transition-all duration-200;
+  background-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: scale(1.02);
 }
 
 .btn-secondary {
-  @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply font-medium py-2.5 px-6 rounded-full transition-all duration-200 border;
+  background-color: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
-/* 进度条样式 */
+.btn-secondary:hover {
+  background-color: var(--accent);
+  color: white;
+  transform: scale(1.02);
+}
+
+/* 苹果风格进度条 */
 .progress-bar {
-  @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+  @apply w-full rounded-full overflow-hidden;
+  background-color: var(--bg-tertiary);
 }
 
 .progress-bar-fill {
-  @apply bg-blue-500 dark:bg-blue-400 h-full transition-all duration-300;
+  @apply h-full transition-all duration-500 ease-out;
+  background: linear-gradient(90deg, #0071e3 0%, #40a9ff 100%);
+}
+
+/* 苹果风格标题层级 */
+h1 {
+  @apply text-4xl sm:text-5xl font-bold tracking-tight;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  @apply text-3xl sm:text-4xl font-semibold tracking-tight;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+}
+
+h3 {
+  @apply text-2xl sm:text-3xl font-semibold;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+}
+
+/* 容器最大宽度限制 - 苹果风格居中留白 */
+.apple-container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: 980px;
+}
+
+/* 卡片网格 - 响应式间距 */
+.apple-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8;
+}
+
+/* 渐变英雄区域 */
+.hero-gradient {
+  background: linear-gradient(135deg, #0071e3 0%, #42d1ff 100%);
+}
+
+.hero-gradient-dark {
+  background: linear-gradient(135deg, #005bb5 0%, #0071e3 100%);
+}
+
+/* 第三方登录按钮 - 苹果风格 */
+.social-btn-google {
+  @apply flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border transition-all duration-200;
+  background-color: white;
+  border-color: var(--border-color);
+  color: #1d1d1f;
+}
+
+.social-btn-google:hover {
+  background-color: #f5f5f7;
+  border-color: #d2d2d7;
+}
+
+.social-btn-microsoft {
+  @apply flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border transition-all duration-200;
+  background-color: #2f2f2f;
+  border-color: #2f2f2f;
+  color: white;
+}
+
+.social-btn-microsoft:hover {
+  background-color: #1d1d1f;
+  border-color: #1d1d1f;
+}
+
+.social-btn-apple {
+  @apply flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border transition-all duration-200;
+  background-color: #000000;
+  border-color: #000000;
+  color: white;
+}
+
+.social-btn-apple:hover {
+  background-color: #333333;
+  border-color: #333333;
+}
+
+.dark .social-btn-google {
+  background-color: #1a1a1a;
+  color: #f5f5f7;
+}
+
+.dark .social-btn-google:hover {
+  background-color: #2d2d2d;
+}
+
+.dark .social-btn-microsoft {
+  background-color: #2f2f2f;
+  border-color: #424245;
+}
+
+.dark .social-btn-apple {
+  background-color: #000000;
+  border-color: #424245;
+}
+
+/* 输入框 - 苹果风格 */
+.apple-input {
+  @apply w-full px-4 py-3 rounded-xl border transition-colors duration-200;
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.apple-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+}
+
+/* 模态框背景 */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50;
+}
+
+/* 模态框内容 */
+.modal-content {
+  @apply bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden;
+}
+
+/* 训练项目徽章 */
+.workout-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-cardio {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+.badge-strength {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+.badge-flexibility {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+.badge-core {
+  @apply bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200;
 }
