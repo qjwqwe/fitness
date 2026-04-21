@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>训练库 - 健身为王</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/custom.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ff3b30',
+            bggray: '#f5f5f0',
+            textgray: '#666666',
+          },
+        },
+      }
+    }
+  </script>
+</head>
+<body class="bg-bggray">
+  <header class="header">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div class="flex items-center justify-between">
+          <h1 class="text-2xl font-bold">健身为王</h1>
+          <button id="menu-toggle" class="md:hidden text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        <nav id="main-nav" class="hidden md:flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+          <a href="/index.html" class="nav-link">首页</a>
+          <a href="/pages/daily.html" class="nav-link">每日训练</a>
+          <a href="/pages/workouts.html" class="nav-link">训练库</a>
+          <a href="/pages/challenges.html" class="nav-link">月度挑战</a>
+          <a href="/pages/programs.html" class="nav-link">健身计划</a>
+          <a href="/pages/about.html" class="nav-link">关于我们</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold mb-6 text-center">训练库</h2>
+
+    <!-- Filter Bar -->
+    <div class="card mb-6">
+      <div class="flex flex-wrap gap-4">
+        <div>
+          <label class="block font-medium mb-2">难度</label>
+          <div class="flex gap-2">
+            <button class="filter-btn btn" data-filter="difficulty" data-value="beginner">初级</button>
+            <button class="filter-btn bg-gray-200 text-black hover:bg-gray-300" data-filter="difficulty" data-value="intermediate">中级</button>
+            <button class="filter-btn bg-gray-200 text-black hover:bg-gray-300" data-filter="difficulty" data-value="advanced">高级</button>
+          </div>
+        </div>
+        <div>
+          <label class="block font-medium mb-2">部位</label>
+          <div class="flex flex-wrap gap-2">
+            <button class="filter-btn btn" data-filter="muscle" data-value="full">全身</button>
+            <button class="filter-btn bg-gray-200 text-black hover:bg-gray-300" data-filter="muscle" data-value="upper">上肢</button>
+            <button class="filter-btn bg-gray-200 text-black hover:bg-gray-300" data-filter="muscle" data-value="lower">下肢</button>
+            <button class="filter-btn bg-gray-200 text-black hover:bg-gray-300" data-filter="muscle" data-value="core">核心</button>
+            <button class="filter-btn bg-gray-200 text-black hover:bg-gray-300" data-filter="muscle" data-value="cardio">有氧</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workout Grid -->
+    <div id="workout-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <p class="text-center texttextgray col-span-full">加载中...</p>
+    </div>
+  </main>
+
+  <footer class="footer bg-white">
+    <div class="container mx-auto px-4">
+      <p>&copy; 2026 健身为王. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script type="module">
+    import predefinedWorkouts from '/data/workouts.js';
+    
+    let activeFilters = {
+      difficulty: 'beginner',
+      muscle: 'full'
+    };
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      renderWorkouts();
+      
+      // Add click handlers to filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const filter = this.dataset.filter;
+          const value = this.dataset.value;
+          
+          // Update active state for buttons
+          document.querySelectorAll(`.filter-btn[data-filter="${filter}"]`).forEach(b => {
+            b.classList.remove('btn');
+            b.classList.add('bg-gray-200', 'text-black', 'hover:bg-gray-300');
+          });
+          this.classList.remove('bg-gray-200', 'text-black', 'hover:bg-gray-300');
+          this.classList.add('btn');
+          
+          activeFilters[filter] = value;
+          renderWorkouts();
+        });
+      });
+    });
+    
+    function renderWorkouts() {
+      const container = document.getElementById('workout-grid');
+      
+      // Filter workouts based on active filters
+      const filteredWorkouts = predefinedWorkouts.filter(workout => {
+        const matchesDifficulty = workout.difficulty === activeFilters.difficulty;
+        
+        // Map our types to muscle categories
+        const muscleMap = {
+          'full-body': 'full',
+          'cardio': 'cardio',
+          'core': 'core'
+        };
+        const workoutMuscle = muscleMap[workout.type] || 'full';
+        const matchesMuscle = workoutMuscle === activeFilters.muscle;
+        
+        return matchesDifficulty && matchesMuscle;
+      });
+      
+      if (filteredWorkouts.length === 0) {
+        container.innerHTML = '<p class="text-center texttextgray col-span-full">没有找到符合条件的训练</p>';
+        return;
+      }
+      
+      let html = '';
+      filteredWorkouts.forEach(workout => {
+        html += `
+          <div class="card">
+            <div class="text-center">
+              <div class="mb-4">
+                <svg class="svg-illustration w-24 h-24 mx-auto" viewBox="0 0 100 100">
+                  <rect x="15" y="15" width="70" height="70" rx="5"/>
+                  <line x1="30" y1="35" x2="70" y2="35"/>
+                  <line x1="30" y1="50" x2="70" y2="50"/>
+                  <line x1="30" y1="65" x2="55" y2="65"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-2">${workout.name}</h3>
+              <p class="texttextgray mb-4">${workout.description}</p>
+              <div class="flex justify-center gap-2 mb-4">
+                <span class="px-2 py-1 bg-gray-100 rounded-full text-xs">${workout.duration} 分钟</span>
+                <span class="px-2 py-1 bg-gray-100 rounded-full text-xs">${getDifficultyText(workout.difficulty)}</span>
+                <span class="px-2 py-1 bg-gray-100 rounded-full text-xs">${getTypeText(workout.type)}</span>
+              </div>
+              <a href="/pages/daily.html" class="btn">开始训练</a>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+    
+    function getDifficultyText(difficulty) {
+      switch(difficulty) {
+        case 'beginner': return '初级';
+        case 'intermediate': return '中级';
+        case 'advanced': return '高级';
+        default: return '初级';
+      }
+    }
+    
+    function getTypeText(type) {
+      switch(type) {
+        case 'full-body': return '全身';
+        case 'cardio': return '有氧';
+        case 'core': return '核心';
+        case 'flexibility': return '拉伸';
+        default: return type;
+      }
+    }
+  </script>
+</body>
+</html>

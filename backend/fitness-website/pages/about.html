@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们 - 健身为王</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/custom.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ff3b30',
+            bggray: '#f5f5f0',
+            textgray: '#666666',
+          },
+        },
+      }
+    }
+  </script>
+</head>
+<body class="bg-bggray">
+  <header class="header">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div class="flex items-center justify-between">
+          <h1 class="text-2xl font-bold">健身为王</h1>
+          <button id="menu-toggle" class="md:hidden text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        <nav id="main-nav" class="hidden md:flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+          <a href="/index.html" class="nav-link">首页</a>
+          <a href="/pages/daily.html" class="nav-link">每日训练</a>
+          <a href="/pages/workouts.html" class="nav-link">训练库</a>
+          <a href="/pages/challenges.html" class="nav-link">月度挑战</a>
+          <a href="/pages/programs.html" class="nav-link">健身计划</a>
+          <a href="/pages/about.html" class="nav-link">关于我们</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="card">
+        <h2 class="text-3xl font-bold mb-6 text-primary text-center">关于我们</h2>
+
+        <div class="space-y-6">
+          <section>
+            <h3 class="text-xl font-bold mb-3">我们的理念</h3>
+            <p class="text-lg leading-relaxed">
+              健身为王坚信，高质量的健身资源应该向所有人免费开放。我们不设任何付费门槛，没有广告，没有弹窗，只专注于提供干净实用的健身内容。
+            </p>
+          </section>
+
+          <section>
+            <h3 class="text-xl font-bold mb-3">为什么选择我们</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-primary text-xl mr-2">•</span>
+                <span class="text-lg">完全免费，永远无广告</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-primary text-xl mr-2">•</span>
+                <span class="text-lg">适合各个健身水平，从新手到进阶</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-primary text-xl mr-2">•</span>
+                <span class="text-lg">不需要任何装备，随时随地训练</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-primary text-xl mr-2">•</span>
+                <span class="text-lg">响应式设计，手机电脑都能完美访问</span>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 class="text-xl font-bold mb-3">新手指南</h3>
+            <ol class="list-decimal list-inside space-y-2 pl-4">
+              <li class="text-lg">从<a href="/pages/daily.html" class="text-primary hover:underline">每日训练</a>开始，养成每天锻炼的习惯</li>
+              <li class="text-lg">根据你的目标选择合适的<a href="/pages/programs.html" class="text-primary hover:underline">健身计划</a></li>
+              <li class="text-lg">参加<a href="/pages/challenges.html" class="text-primary hover:underline">月度挑战</a>，持续进步</li>
+              <li class="text-lg">在<a href="/pages/workouts.html" class="text-primary hover:underline">训练库</a>找到适合你的训练内容</li>
+            </ol>
+          </section>
+
+          <section>
+            <h3 class="text-xl font-bold mb-3">常见问题</h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-bold mb-1">Q: 需要健身器材吗？</h4>
+                <p>A: 大部分训练都不需要器材，徒手就能完成。部分计划需要哑铃等简单器材，我们也会提供替代动作。</p>
+              </div>
+              <div>
+                <h4 class="font-bold mb-1">Q: 我是新手，适合吗？</h4>
+                <p>A: 当然适合！我们有专门为新手设计的入门计划，从最简单的动作开始循序渐进。</p>
+              </div>
+              <div>
+                <h4 class="font-bold mb-1">Q: 会收费吗？</h4>
+                <p>A: 永远不会。所有内容都是免费的，我们不会设置付费墙，也不会推送广告。</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3 class="text-xl font-bold mb-3">支持我们</h3>
+            <p class="mb-4">
+              如果你喜欢我们的网站，可以分享给你的朋友，这就是对我们最大的支持。如果你想进一步帮助我们维护网站，可以考虑捐赠，所有资金都会用于服务器和内容更新。
+            </p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer bg-white">
+    <div class="container mx-auto px-4">
+      <p>&copy; 2026 健身为王. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

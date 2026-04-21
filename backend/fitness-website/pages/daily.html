@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日训练 - 健身为王</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/custom.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ff3b30',
+            bggray: '#f5f5f0',
+            textgray: '#666666',
+          },
+        },
+      }
+    }
+  </script>
+</head>
+<body class="bg-bggray">
+  <header class="header">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div class="flex items-center justify-between">
+          <h1 class="text-2xl font-bold">健身为王</h1>
+          <button id="menu-toggle" class="md:hidden text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        <nav id="main-nav" class="hidden md:flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+          <a href="/index.html" class="nav-link">首页</a>
+          <a href="/pages/daily.html" class="nav-link">每日训练</a>
+          <a href="/pages/workouts.html" class="nav-link">训练库</a>
+          <a href="/pages/challenges.html" class="nav-link">月度挑战</a>
+          <a href="/pages/programs.html" class="nav-link">健身计划</a>
+          <a href="/pages/about.html" class="nav-link">关于我们</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold" id="current-date"></h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="card">
+        <h3 class="text-2xl font-bold mb-4 text-primary">今日动作</h3>
+        <div id="today-exercise" class="text-center">
+          <p class="texttextgray">加载中...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="text-2xl font-bold mb-4 text-primary">今日完整训练</h3>
+        <div id="today-workout" class="text-center">
+          <p class="texttextgray">加载中...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <button onclick="printPage()" class="btn">打印今日训练</button>
+    </div>
+  </main>
+
+  <footer class="footer bg-white">
+    <div class="container mx-auto px-4">
+      <p>&copy; 2026 健身为王. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script type="module">
+    import predefinedWorkouts from '/data/workouts.js';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date();
+      document.getElementById('current-date').textContent = today.toLocaleDateString('zh-CN', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        weekday: 'long' 
+      });
+      
+      // Get today's exercise based on date
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+      const exerciseIndex = dayOfYear % predefinedWorkouts.length;
+      const todayWorkout = predefinedWorkouts[exerciseIndex];
+      
+      // Render today's exercise info
+      const exerciseContainer = document.getElementById('today-exercise');
+      exerciseContainer.innerHTML = `
+        <div class="mb-4">
+          <svg class="svg-illustration w-32 h-32 mx-auto mb-4" viewBox="0 0 100 100">
+            <circle cx="50" cy="25" r="10"/>
+            <line x1="50" y1="35" x2="50" y2="60"/>
+            <line x1="30" y1="50" x2="70" y2="50"/>
+            <line x1="50" y1="60" x2="30" y2="90"/>
+            <line x1="50" y1="60" x2="70" y2="90"/>
+          </svg>
+        </div>
+        <h4 class="text-2xl font-bold mb-2">${todayWorkout.name}</h4>
+        <p class="texttextgray mb-4">${todayWorkout.description}</p>
+        <div class="flex justify-center gap-4 mb-4">
+          <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">${todayWorkout.duration} 分钟</span>
+          <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">${getDifficultyText(todayWorkout.difficulty)}</span>
+        </div>
+        <a href="#today-workout" class="btn">查看完整训练</a>
+      `;
+      
+      // Render full workout
+      const workoutContainer = document.getElementById('today-workout');
+      let exercisesHTML = '<div class="space-y-4 text-left">';
+      todayWorkout.exercises.forEach((exercise, index) => {
+        exercisesHTML += `
+          <div class="p-4 bg-gray-50 rounded-lg">
+            <div class="flex items-start">
+              <span class="flex items-center justify-center bg-primary text-white w-6 h-6 rounded-full mr-3 flex-shrink-0">${index + 1}</span>
+              <div class="flex-1">
+                <h5 class="font-bold text-lg mb-1">${exercise.name}</h5>
+                <div class="text-sm texttextgray">
+                  ${exercise.reps ? `<p>${exercise.sets} 组 × ${exercise.reps} 次</p>` : ''}
+                  ${exercise.duration ? `<p>持续 ${exercise.duration} 秒</p>` : ''}
+                  ${exercise.notes ? `<p class="mt-1">${exercise.notes}</p>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      exercisesHTML += '</div><div class="mt-6"><p class="mb-4 texttextgray">完成训练后记得拉伸，坚持每天锻炼！</p></div>';
+      
+      workoutContainer.innerHTML = exercisesHTML;
+    });
+    
+    function getDifficultyText(difficulty) {
+      switch(difficulty) {
+        case 'beginner': return '初级';
+        case 'intermediate': return '中级';
+        case 'advanced': return '高级';
+        default: return '初级';
+      }
+    }
+  </script>
+</body>
+</html>
