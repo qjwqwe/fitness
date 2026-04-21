@@ -69,27 +69,29 @@ const base = import.meta.env.BASE_URL;
 
 <script is:inline>
 // 登录页面 - 苹果风格简约设计
-const api = window.fitnessAPI;
-const base = import.meta.env.BASE_URL;
+document.addEventListener('fitnessAPIReady', function() {
+  const api = window.fitnessAPI;
+  const base = import.meta.env.BASE_URL;
 
-// 如果已经登录，跳转到首页
-if (api.isAuthenticated()) {
-  window.location.href = base;
-}
-
-// 登录提交
-document.getElementById('login-form')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const username = document.getElementById('login-username').value;
-  const password = document.getElementById('login-password').value;
-  const errorEl = document.getElementById('login-error');
-  
-  try {
-    await api.login(username, password);
+  // 如果已经登录，跳转到首页
+  if (api.isAuthenticated()) {
     window.location.href = base;
-  } catch (err) {
-    errorEl.textContent = err.message;
-    errorEl.classList.remove('hidden');
   }
+
+  // 登录提交
+  document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    const errorEl = document.getElementById('login-error');
+    
+    try {
+      await api.login(username, password);
+      window.location.href = base;
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.classList.remove('hidden');
+    }
+  });
 });
 </script>

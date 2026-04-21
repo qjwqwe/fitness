@@ -4,20 +4,17 @@
 import { SITE } from '../config';
 
 class FitnessAPI {
-  private baseUrl: string;
-  private token: string | null;
-
   constructor() {
     this.baseUrl = SITE.apiBaseUrl;
     this.token = localStorage.getItem('fitness_token');
   }
 
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  async request(endpoint, options = {}) {
     const url = `${this.baseUrl}${endpoint}`;
     
-    const headers: Record<string, string> = {
+    const headers = {
       'Content-Type': 'application/json',
-      ...(options.headers as Record<string, string> || {}),
+      ...(options.headers || {}),
     };
 
     if (this.token) {
@@ -39,15 +36,15 @@ class FitnessAPI {
 
   // ========== 认证相关 ==========
   
-  async register(username: string, email: string, password: string) {
-    return this.request<{ token: string; user: { id: number; username: string; email: string } }>('/auth/register', {
+  async register(username, email, password) {
+    return this.request('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ username, email, password }),
     });
   }
 
-  async login(username: string, password: string) {
-    const data = await this.request<{ token: string; user: { id: number; username: string; email: string } }>('/auth/login', {
+  async login(username, password) {
+    const data = await this.request('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     });
@@ -67,12 +64,12 @@ class FitnessAPI {
   }
 
   async getMe() {
-    return this.request<{ user: { id: number; username: string; email: string } }>('/auth/me', {
+    return this.request('/auth/me', {
       method: 'GET',
     });
   }
 
-  isAuthenticated(): boolean {
+  isAuthenticated() {
     return !!this.token;
   }
 
@@ -84,35 +81,35 @@ class FitnessAPI {
   // ========== 训练相关 ==========
 
   async getWorkouts() {
-    return this.request<{ workouts: any[] }>('/workouts', { method: 'GET' });
+    return this.request('/workouts', { method: 'GET' });
   }
 
-  async createWorkout(workout: any) {
-    return this.request<{ workout: any }>('/workouts', {
+  async createWorkout(workout) {
+    return this.request('/workouts', {
       method: 'POST',
       body: JSON.stringify(workout),
     });
   }
 
-  async updateWorkout(id: number, workout: any) {
-    return this.request<{ workout: any }>(`/workouts/${id}`, {
+  async updateWorkout(id, workout) {
+    return this.request(`/workouts/${id}`, {
       method: 'PUT',
       body: JSON.stringify(workout),
     });
   }
 
-  async deleteWorkout(id: number) {
+  async deleteWorkout(id) {
     return this.request(`/workouts/${id}`, { method: 'DELETE' });
   }
 
   // ========== 健康记录相关 ==========
 
   async getHealthRecords() {
-    return this.request<{ records: any[] }>('/health', { method: 'GET' });
+    return this.request('/health', { method: 'GET' });
   }
 
-  async createHealthRecord(record: any) {
-    return this.request<{ record: any }>('/health', {
+  async createHealthRecord(record) {
+    return this.request('/health', {
       method: 'POST',
       body: JSON.stringify(record),
     });
@@ -128,11 +125,9 @@ class FitnessAPI {
 }
 
 // 全局单例
-declare global {
-  interface Window {
-    fitnessAPI: FitnessAPI;
-  }
-}
-
 window.fitnessAPI = new FitnessAPI();
+
+// 派发加载完成事件，通知页面脚本可以使用了
+window.dispatchEvent(new CustomEvent('fitnessAPIReady'));
+
 export default window.fitnessAPI;

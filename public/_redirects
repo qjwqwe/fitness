@@ -1,3 +1,6 @@
-# 把所有不带后缀的请求重定向到对应目录的 index.html
-# Cloudflare Pages 会自动添加 trailing slash，这个规则处理直接访问
-/*    /index.html   200
+# Cloudflare Pages SPA 路由修复
+# 1. 先放行 _astro 静态资源（CSS, JS），不重定向
+/_astro/*  200
+# 2. 然后将所有其他请求（SPA 路由）重写到 index.html
+# 这样浏览器端路由可以正常工作，静态资源也能正确加载
+/*  /index.html  200

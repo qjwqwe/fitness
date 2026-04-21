@@ -48,8 +48,9 @@ window.PRESET_WORKOUTS = JSON.stringify(presetWorkouts);
 
 <script is:inline>
 // 训练库页面
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('fitnessAPIReady', () => {
   const presetWorkouts = JSON.parse(window.PRESET_WORKOUTS);
+  const api = window.fitnessAPI;
   const allWorkouts = [];
 
   // 把所有分类展平成一个列表
@@ -119,6 +120,13 @@ function showWorkoutModal(workout) {
   });
   exercisesHtml += '</ul>';
   
+  // 根据认证状态决定底部按钮/提示
+  const authHtml = api.isAuthenticated() ? `
+    <button id="save-to-my" class="btn-primary w-full">添加到我的训练记录</button>
+  ` : `
+    <p class="text-sm text-gray-500 dark:text-gray-400 text-center">登录后可以保存训练记录</p>
+  `;
+  
   modal.innerHTML = `
     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto">
       <div class="p-6">
@@ -144,11 +152,7 @@ function showWorkoutModal(workout) {
           </div>
         ` : ''}
         <div class="mt-6">
-          ${window.fitnessAPI.isAuthenticated() ? `
-            <button id="save-to-my" class="btn-primary w-full">添加到我的训练记录</button>
-          ` : `
-            <p class="text-sm text-gray-500 dark:text-gray-400 text-center">登录后可以保存训练记录</p>
-          `}
+          ${authHtml}
         </div>
       </div>
     </div>
@@ -159,7 +163,7 @@ function showWorkoutModal(workout) {
   // 绑定保存事件
   document.getElementById('save-to-my')?.addEventListener('click', async () => {
     try {
-      await window.fitnessAPI.createWorkout({
+      await api.createWorkout({
         name: workout.name,
         type: 'library',
         exercises: workout.exercises,

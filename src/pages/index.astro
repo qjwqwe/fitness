@@ -231,26 +231,30 @@ function resolve(path: string) {
 
 <script is:inline>
 // 首页 JavaScript - 用户认证状态处理
-const api = window.fitnessAPI;
+// 等待 fitness-api 模块加载完成后再执行
+document.addEventListener('fitnessAPIReady', function() {
+  const api = window.fitnessAPI;
 
-// 检查登录状态
-if (api.isAuthenticated()) {
-  document.getElementById('login-card').classList.add('hidden');
-  document.getElementById('user-menu').classList.remove('hidden');
-  document.getElementById('stats-section').classList.remove('hidden');
-  
-  const user = api.getCurrentUser();
-  if (user) {
-    document.getElementById('username-display').textContent = user.username;
+  // 检查登录状态
+  if (api.isAuthenticated()) {
+    document.getElementById('login-card')?.classList.add('hidden');
+    document.getElementById('user-menu')?.classList.remove('hidden');
+    document.getElementById('stats-section')?.classList.remove('hidden');
+    
+    const user = api.getCurrentUser();
+    if (user) {
+      document.getElementById('username-display').textContent = user.username;
+    }
+    
+    // 加载统计数据
+    loadStats();
   }
-  
-  // 加载统计数据
-  loadStats();
-}
 
-// 退出登录
-document.getElementById('logout-btn')?.addEventListener('click', () => {
-  api.logout();
+  // 退出登录
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    api.logout();
+    window.location.reload();
+  });
 });
 
 // 标签切换
@@ -282,6 +286,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
   const errorEl = document.getElementById('login-error');
   
   try {
+    const api = window.fitnessAPI;
     await api.login(username, password);
     window.location.reload();
   } catch (err) {
@@ -311,6 +316,7 @@ document.getElementById('register-form')?.addEventListener('submit', async (e) =
   }
   
   try {
+    const api = window.fitnessAPI;
     await api.register(username, email, password);
     window.location.reload();
   } catch (err) {
@@ -322,6 +328,7 @@ document.getElementById('register-form')?.addEventListener('submit', async (e) =
 // 加载统计数据
 async function loadStats() {
   try {
+    const api = window.fitnessAPI;
     const { workouts } = await api.getWorkouts();
     document.getElementById('total-workouts').textContent = workouts.length;
     

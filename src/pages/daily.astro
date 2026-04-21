@@ -39,7 +39,7 @@ window.PRESET_WORKOUTS = JSON.stringify(presetWorkouts);
 
 <script is:inline>
 // 每日训练页面
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('fitnessAPIReady', () => {
   const api = window.fitnessAPI;
   let currentWorkout = null;
   // 从服务端获取预置数据

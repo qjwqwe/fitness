@@ -31,7 +31,7 @@ window.PREDEFINED_CHALLENGES = JSON.stringify(predefinedChallenges);
 
 <script is:inline>
 // 月度挑战页面
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('fitnessAPIReady', () => {
   const api = window.fitnessAPI;
   // 从服务端获取预置数据
   const predefinedChallenges = JSON.parse(window.PREDEFINED_CHALLENGES);
